@@ -1,5 +1,19 @@
 const properties = require("./json/properties.json");
 const users = require("./json/users.json");
+const { Pool } = require("pg");
+require("dotenv").config();
+
+const pool = new Pool({
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME
+});
+
+pool.connect()
+.then(() => console.log('connected to database'))
+.catch(err => console.error('connection error', err.stack));
+
 
 /// Users
 
