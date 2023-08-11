@@ -7,13 +7,13 @@ const pool = new Pool({
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
   host: process.env.DB_HOST,
-  database: process.env.DB_NAME
+  database: process.env.DB_NAME,
 });
 
-pool.connect()
-.then(() => console.log('connected to database'))
-.catch(err => console.error('connection error', err.stack));
-
+pool
+  .connect()
+  .then(() => console.log("connected to database"))
+  .catch((err) => console.error("connection error", err.stack));
 
 /// Users
 
@@ -74,11 +74,19 @@ const getAllReservations = function (guest_id, limit = 10) {
  * @return {Promise<[{}]>}  A promise to the properties.
  */
 const getAllProperties = function (options, limit = 10) {
-  const limitedProperties = {};
-  for (let i = 1; i <= limit; i++) {
-    limitedProperties[i] = properties[i];
-  }
-  return Promise.resolve(limitedProperties);
+  return pool
+    .query(
+      `SELECT *
+    FROM properties
+    LIMIT $1`,
+    [limit]
+    )
+    .then((res) => {
+      return res.rows;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
 };
 
 /**
