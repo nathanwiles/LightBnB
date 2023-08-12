@@ -4,8 +4,13 @@
  * @return {Promise<{}>} A promise to the user.
  */
 const getUserWithId = function (id) {
-  const { query } = require('../index');
-  return query(`SELECT * FROM users WHERE id = $1;`, [id])
+  const { query } = require("../index");
+  return query(
+    `SELECT * 
+      FROM users 
+      WHERE id = $1;`,
+    [id]
+  )
     .then((res) => {
       return res.rows[0] || null;
     })
