@@ -5,8 +5,17 @@
 ```
 .
 ├── db
-│   ├── json
-│   └── database.js
+│   ├── queries
+│   │   ├── query-helpers
+│   │   │   ├── getParamPrefix.js
+│   │   ├── addProperty.js
+│   │   ├── addUser.js
+│   │   ├── getAllProperties.js
+│   │   ├── getAllReservations.js
+│   │   ├── getUserWithEmail.js
+│   │   ├── getUserWithId.js
+│   ├── database.js
+│   ├── index.js
 ├── public
 │   ├── javascript
 │   │   ├── components 
@@ -41,8 +50,11 @@
 ```
 
 * `db` contains all the database interaction code.
-  * `json` is a directory that contains a bunch of dummy data in `.json` files.
-  * `database.js` is responsible for all queries to the database. It doesn't currently connect to any database, all it does is return data from `.json` files.
+  * `database.js` is responsible for compiling queries to the database, making them easily accessible.
+  * 'index.js' is responsible for connecting to the database.
+  * `queries` contains all of the SQL embedded Javascript.
+    * `query-helpers` contains any helper functions for building the SQL queries.
+
 * `public` contains all of the HTML, CSS, and client side JavaScript. 
   * `index.html` is the entry point to the application. It's the only html page because this is a single page application.
   * `javascript` contains all of the client side javascript files.
