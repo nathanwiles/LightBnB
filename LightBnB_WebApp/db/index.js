@@ -1,3 +1,4 @@
+// set database according to environment
 const { Pool } = require("pg");
 require("dotenv").config();
 
@@ -8,6 +9,7 @@ const pool = new Pool({
   database: process.env.DB_NAME,
 });
 
+// setup global query function to track query duration
 const query = async (text, params) => {
   const start = Date.now();
   const res = await pool.query(text, params);
@@ -16,28 +18,6 @@ const query = async (text, params) => {
   return res;
 };
 
-const getClient = async () => {
-  const client = await pool.connect();
-  const query = client.query;
-  const release = client.release;
-  // set a timeout of 5 seconds, after which we will log this client's last query
-  const timeout = setTimeout(() => {
-    console.error("a client has been checked out for more than 5 seconds!");
-    console.error(
-      `The last executed query on this client was: ${client.lastQuery}`
-    ),
-      5000;
-  }); // monkey patch the query method to keep track of the last query executed
-  client.query = (...args) => {
-    client.lastQuery = args;
-    return query.apply(client, args);
-  }
-  client.release = () => {
-    clearTimeout(timeout);
-    client.query = query;
-    client.release = release;
-  }
-  return client;
-};
 
-module.exports = { query, getClient };
+
+module.exports = { query };
