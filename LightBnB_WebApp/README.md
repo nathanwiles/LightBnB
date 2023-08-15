@@ -4,7 +4,7 @@
 
 The project structure is as follows:
 
-```
+```bash
 .
 ├── 1_queries
 ├── LightBnB_WebApp
