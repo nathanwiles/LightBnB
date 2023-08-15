@@ -9,6 +9,8 @@ const pool = new Pool({
   database: process.env.DB_NAME,
 });
 
+pool.connect();
+
 // setup global query function to track query duration
 const query = async (text, params) => {
   const start = Date.now();
